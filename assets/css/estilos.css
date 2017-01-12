@@ -1,0 +1,88 @@
+body {
+    background-color: #cccccc;
+}
+
+.container {
+    margin-top: 2%;
+}
+
+.jumbotron {
+background: #525252; /* fallback for old browsers */
+background: -webkit-linear-gradient(to left, #525252 , #3d72b4); /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #525252 , #3d72b4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+color: white;
+padding: 10px;
+border-radius: 10px;
+}
+
+.error {
+	color: red;
+}
+
+.borderless > tbody > tr:first-child > td {
+    border: none;
+}
+
+.producto {
+    -webkit-box-shadow: 5px 10px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 5px 10px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 5px 10px 5px 0px rgba(0,0,0,0.75);
+    padding-top: 5px;
+	border: none;
+	margin-top: 4%;
+    box-shadow: 5px;
+}
+
+.info-prod {
+	display: none;
+}
+
+.btn-info {
+	margin-top: -13%;
+}
+
+#footer {
+    background-color: black;
+    color: white;
+    padding: 1%;
+    margin-top: 0.5%;
+}
+
+ul.pagination {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+ul.pagination li {
+    margin-top: 15%;
+    display: inline;
+    color: black;
+    float: left;
+
+    text-decoration: none;
+    border-radius: 20px;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+ul.pagination li a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 20px;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+ul.pagination li.active {
+    background-color: #073B39;
+    padding: 8px 16px;
+    color: white;
+    border-radius: 20px;
+}
+
+ul.pagination li a:hover:not(.active) {
+    background-color: #ddd;
+}
