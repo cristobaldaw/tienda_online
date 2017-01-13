@@ -11,6 +11,13 @@ class Productos extends CI_Controller {
 		$this->load->library('pagination');
 	}
 
+	public function index()
+	{
+		$destacados = $this->Model_productos->prod_destacados();
+		$categorias = $this->Model_productos->get_all_categorias();
+		$this->load->vista('inicio', array('destacados' => $destacados, 'cont' => 0, 'categorias' => $categorias));
+	}
+
 	public function categoria()
 	{
 		$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
@@ -20,6 +27,12 @@ class Productos extends CI_Controller {
 		$config['base_url'] = base_url('productos/categoria/' . $this->uri->segment(3));
 		$this->pagination->initialize($config);
 		$this->load->vista('productos/prods_by_cat', array('productos' => $productos, 'datos_cat' => $datos_cat));
+	}
+
+	public function mostrar()
+	{
+		$datos_prod = $this->Model_productos->prod_by_id($this->uri->segment(3));
+		$this->load->vista('productos/datos_prod', array('datos_prod' => $datos_prod));
 	}
 
 

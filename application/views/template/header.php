@@ -11,6 +11,16 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/estilos.css') ?>">
 	<script src="<?php echo base_url('assets/js/script.js') ?>"></script>
 	<title><?php echo $title ?></title>
+	<script> // Necesario para colocar el footer al final de la página
+		$(document).ready(function() {
+			var docHeight = $(window).height();
+			var footerHeight = $('#footer').height();
+			var footerTop = $('#footer').position().top + footerHeight;
+			if (footerTop < docHeight) {
+				$('#footer').css('margin-top', 10+ (docHeight - footerTop) + 'px');
+			}
+		});
+	</script>
 </head>
 <body>
 	<nav class="navbar navbar-toggleable-md sticky-top navbar-inverse bg-primary">
@@ -35,10 +45,12 @@
 						<?php endforeach ?>
 					</div>
 				</li>
+				<li class="nav-item">
+					<a href="<?php echo base_url('usuarios/login') ?>" class="nav-link">Iniciar sesión</a>
+				</li>
+				<li class="nav-item">
+					<a href="<?php echo base_url('usuarios/registro') ?>" class="nav-link">Registrarse</a>
+				</li>
 			</ul>
-			<form class="form-inline">
-				<input class="form-control mr-sm-2" type="text" placeholder="Search" />
-				<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
-			</form>
 		</div>
 	</nav>

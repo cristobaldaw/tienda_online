@@ -40,11 +40,29 @@ class Model_productos extends CI_Model {
 		return $this->db->count_all_results();
 	}
 
+	public function prod_destacados()
+	{
+		$this->db->select('productos.*');
+		$this->db->from('productos');
+		$this->db->join('categorias', 'productos.id_categoria = categorias.id');
+		$this->db->where('productos.oculto', 0);
+		$this->db->where('categorias.oculto', 0);
+		$this->db->where('productos.destacado', 1);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 	public function datos_categoria($id_cat)
 	{
 		$this->db->from('categorias');
 		$this->db->where('id', $id_cat);
 		$query = $this->db->get();
+		return $query->row_array();
+	}
+
+	public function prod_by_id($id_prod)
+	{
+		$query = $this->db->get_where('productos', array('id' => $id_prod));
 		return $query->row_array();
 	}
 

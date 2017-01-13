@@ -9,14 +9,14 @@
 		<?php foreach ($productos as $prod): ?>
 			<div class="col-md-4">
 				<div class="card producto">
-					<img class="card-img-top img-responsive img-fluid" src="<?php echo base_url("assets/img/$prod[imagen].jpg") ?>" alt="Card image cap">
+					<a href="<?php echo base_url("productos/mostrar/$prod[id]") ?>"><img class="card-img-top img-responsive img-fluid" src="<?php echo base_url("assets/img/$prod[imagen].jpg") ?>" alt="Card image cap"></a>
 					<div class="card-block">
 						<?php if (!$prod['stock']): ?>
 							<h2 class="text-md-center"><span class="badge badge-danger">Agotado</span></h2>
 						<?php else: ?>
 							<h2 class="text-md-center"><span class="badge badge-success">Disponible</span></h2>
 						<?php endif ?>
-						<h3 class="card-title col-md-10"><?php echo $prod['nombre'] ?></h3>
+						<a href="<?php echo base_url("productos/mostrar/$prod[id]") ?>"><h3 class="card-title col-md-10"><?php echo $prod['nombre'] ?></h3></a>
 						<button class="btn btn-sm btn-info btn-info float-md-right" title="Mostrar información del producto"><i class="fa fa-search-plus" aria-hidden="true"></i></button>
 						<p class="card-text info-prod"><?php echo $prod['descripcion'] ?></p>
 						<h3 class="text-md-center"><strong><?php echo $prod['precio'] ?>€</strong></h3>
