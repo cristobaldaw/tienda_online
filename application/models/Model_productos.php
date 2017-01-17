@@ -66,4 +66,11 @@ class Model_productos extends CI_Model {
 		return $query->row_array();
 	}
 
+	public function precio_final($id_prod)
+	{
+		$query = $this->db->get_where('productos', array('id' => $id_prod))->row_array();
+		$con_descuento = ($query['descuento']) ? $query['precio'] - ($query['precio'] * $query['descuento'] / 100) : $query['precio'];
+		$con_iva = ($query['iva']) ? $con_descuento + ($con_descuento * $query['iva'] / 100) : $con_descuento;
+		return round($con_iva, 2);
+	}
 }

@@ -20,3 +20,6 @@ $config['prev_tag_open'] = '<li>';
 $config['prev_tag_close'] = '</li>';
 $config['cur_tag_open'] = '<li class="active">';
 $config['cur_tag_close'] = '</li>';
+
+
+

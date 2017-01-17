@@ -10,9 +10,10 @@ class MY_Loader extends CI_Loader
         $this->ci =& get_instance();
 	}
 
-	public function vista($vista, $datos = [], $return = false, $title = '')
+	public function plantilla($vista, $datos = [], $return = false, $title = '')
 	{
 		$this->ci->load->model('Model_productos');
+		$this->ci->load->library('session');
 		$categorias = $this->ci->Model_productos->get_all_categorias();
 		$this->ci->load->view('template/header', array('title' => $title, 'categorias' => $categorias));
 		$this->ci->load->view($vista, $datos, $return);

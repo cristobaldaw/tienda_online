@@ -1,5 +1,5 @@
 body {
-    background-color: #cccccc;
+    background-image: url(" ../img/bg.jpg");
 }
 
 .container {
@@ -7,9 +7,7 @@ body {
 }
 
 .jumbotron {
-    background: #525252; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #525252 , #3d72b4); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #525252 , #3d72b4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, black, gray);
     color: white;
     padding: 10px;
     border-radius: 10px;
@@ -33,25 +31,45 @@ body {
     box-shadow: 5px;
 }
 
+.btn-info {
+    margin-top: -11.3%;
+}
+
 .info-prod {
 	display: none;
 }
 
-.btn-info {
-	margin-top: -13%;
+#eliminar {
+    color: red;
+}
+
+.boton {
+    cursor: default;
+}
+
+.nombre-prod {
+    color: #333;
+    text-decoration: none !important;
+}
+
+.card-cat {
+    background-color: #333;
+    border-color: #333;
+    margin-bottom: 4px;
 }
 
 #footer {
     background-color: black;
     color: white;
-    padding: 1%;
-    margin-top: 0.5%;
+    padding: 0.5%;
+    margin-top: 3%;
 }
 
 ul.pagination {
     display: inline-block;
     padding: 0;
     margin: 0;
+    margin-bottom: -2%;
 }
 
 ul.pagination li {
@@ -84,7 +102,7 @@ ul.pagination li.active {
 }
 
 ul.pagination li a:hover:not(.active) {
-    background-color: #ddd;
+    background-color: white;
 }
 
 .carousel {
@@ -92,7 +110,7 @@ ul.pagination li a:hover:not(.active) {
 }
 
 .d-md-block {
-      background: linear-gradient(to right, white , #ccc);
+    background: linear-gradient(to right, white, gray);
 }
 
 .fa-chevron-right, .fa-chevron-left {

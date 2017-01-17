@@ -11,7 +11,7 @@
 						<div class="pull-md-right d-none d-md-block">
 							<h3><?php echo $dest['nombre'] ?></h3>
 							<p><?php echo $dest['descripcion'] ?></p>
-							<h3><?php echo $dest['precio'] ?>€</h3>
+							<h3><?php echo $this->Model_productos->precio_final($dest['id']) ?>€</h3>
 							<button class="btn btn-lg btn-success"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Añadir al carrito</button>
 						</div>
 					</div>
@@ -27,11 +27,11 @@
 			</a>
 		</div>
 	</div>
-	<h1>Categorías:</h1>
+	<h1>Categorías</h1>
 	<div class="row">
 		<?php foreach ($categorias as $cat): ?>
-				<div class="card card-inverse card-primary p-3 text-center col-md-12">
-					<a href="<?php echo base_url("productos/categoria/$cat[id]") ?>">
+				<div class="card card-inverse p-3 text-center col-md-12 card-cat">
+					<a href="<?php echo base_url("index.php/productos/categoria/$cat[id]") ?>">
 						<blockquote class="card-blockquote">
 							<p><?php echo $cat['nombre'] ?></p>
 							<footer>

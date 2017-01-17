@@ -8,11 +8,14 @@
 				<div class="col-md-6">
 					<ul>
 						<h3><li><strong><?php echo $datos_prod['nombre'] ?></strong><br><small><?php echo $datos_prod['descripcion'] ?></small></li></h3>
-						<h3><li><strong>Precio: </strong> <?php echo $datos_prod['precio'] ?>€</li></h3>
+						<?php if ($datos_prod['descuento']): ?>
+							<h3><li>¡<?php echo $datos_prod['descuento'] ?>% de descuento!</li></h3>
+						<?php endif ?>
+						<h3><li><strong>Precio: </strong> <?php echo $this->Model_productos->precio_final($datos_prod['id']) ?>€</li></h3>
 						<h3><li><strong>Unidades en stock: </strong><?php echo $datos_prod['stock'] ?></li></h3>
 					</ul>
 					<?php if ($datos_prod['stock']): ?>
-						<button class="btn btn-primary btn-block"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Añadir al carrito</button>
+						<a href="<?php echo base_url("index.php/carrito/anadir/$datos_prod[id]") ?>" class="btn btn-primary btn-block boton"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Añadir al carrito</a>
 					<?php endif ?>
 				</div>
 			</div>

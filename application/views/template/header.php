@@ -23,12 +23,11 @@
 	</script>
 </head>
 <body>
-	<nav class="navbar navbar-toggleable-md sticky-top navbar-inverse bg-primary">
+	<nav class="navbar navbar-toggleable-md sticky-top navbar-inverse bg-inverse">
 		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<a class="navbar-brand" href="#">Navbar</a>
-
+		<a class="navbar-brand" href="<?php echo base_url() ?>">Navbar</a>
 		<div class="collapse navbar-collapse" id="navbarColor02">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item active">
@@ -38,19 +37,48 @@
 					<a class="nav-link" href="#">Features</a>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categorías</a>
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categorías</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 						<?php foreach ($categorias as $cat): ?>
-							<a class="dropdown-item" href="<?php echo base_url("productos/categoria/$cat[id]") ?>"><?php echo $cat['nombre'] ?></a>
+							<a class="dropdown-item" href="<?php echo base_url("index.php/productos/categoria/$cat[id]") ?>"><?php echo $cat['nombre'] ?></a>
 						<?php endforeach ?>
 					</div>
 				</li>
-				<li class="nav-item">
-					<a href="<?php echo base_url('usuarios/login') ?>" class="nav-link">Iniciar sesión</a>
-				</li>
-				<li class="nav-item">
-					<a href="<?php echo base_url('usuarios/registro') ?>" class="nav-link">Registrarse</a>
-				</li>
+			</ul>
+			<ul class="navbar-nav float-md-right">
+				<?php if ($this->session->has_userdata('usuario')): ?>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bienvenido, <?php echo $this->session->userdata('usuario'); ?></a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item" href="<?php echo base_url('index.php/usuarios/preferencias') ?>">Preferencias de mi cuenta</a>
+							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logout">Cerrar sesión</a>
+						</div>
+					</li>
+				<?php else: ?>
+					<li class="nav-item"><a href="<?php echo base_url('index.php/usuarios/registro') ?>" class="nav-link">Registrarse</a></li>
+					<li class="nav-item"><a href="<?php echo base_url('index.php/usuarios/login') ?>" class="nav-link">Iniciar sesión</a></li>					
+				<?php endif ?>
+				<li class="nav-item"><a href="" class="nav-link"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Mi carrito (0)</a></li>
 			</ul>
 		</div>
 	</nav>
+
+	<?php if ($this->session->has_userdata('usuario')): ?>
+		<!-- Modal -->
+		<div class="modal fade" id="logout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header text-md-center">
+						<h4 class="modal-title" id="exampleModalLabel">¿Está seguro de que desea cerrar sesión?</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-footer">
+						<a href="<?php echo base_url('index.php/usuarios/logout') ?>" class="btn btn-primary">Cerrar sesión</a>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	<?php endif ?>

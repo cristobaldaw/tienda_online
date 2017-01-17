@@ -12,7 +12,7 @@
 			<form method="post">
 				<div class="form-group">
 					<label for="usuario">Usuario</label>
-					<input type="text" name="usuario" class="form-control">
+					<input type="text" name="usuario" class="form-control" value="<?php echo set_value('usuario') ?>">
 				</div>
 				<div class="form-group">
 					<label for="pass">Contraseña</label>
