@@ -13,8 +13,20 @@ body {
     border-radius: 10px;
 }
 
-.error {
+.rojo, .rojo:hover {
 	color: red;
+}
+
+.cantidad {
+    color: black;
+}
+
+.imagen {
+    width: 15%;
+}
+
+.table-prods {
+    background-color: white;
 }
 
 .borderless > tbody > tr:first-child > td {
@@ -37,10 +49,6 @@ body {
 
 .info-prod {
 	display: none;
-}
-
-#eliminar {
-    color: red;
 }
 
 .boton {
@@ -119,4 +127,9 @@ ul.pagination li a:hover:not(.active) {
 
 .card-inverse {
     width: auto;
+}
+
+.table>tbody>tr>td, .table>tfoot>tr>td{
+    vertical-align: middle;
+    background-color: white;
 }

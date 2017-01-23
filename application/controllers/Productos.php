@@ -24,7 +24,9 @@ class Productos extends CI_Controller {
 	public function mostrar()
 	{
 		$datos_prod = $this->Model_productos->prod_by_id($this->uri->segment(3));
-		$this->load->plantilla('productos/datos_prod', array('datos_prod' => $datos_prod));
+		$precio_final = $this->Model_productos->precio_final($datos_prod['id']);
+		$disabled = (!$datos_prod['stock']) ? 'disabled' : '';
+		$this->load->plantilla('productos/datos_prod', array('datos_prod' => $datos_prod, 'precio_final' => $precio_final, 'disabled' => $disabled));
 	}
 
 }

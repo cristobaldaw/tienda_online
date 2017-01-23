@@ -44,7 +44,7 @@ class Model_usuarios extends CI_Model {
 	{
 		if (!$this->session->has_userdata('usuario'))
 		{
-			redirect(base_url());
+			redirect(base_url('index.php/usuarios/login'));
 		}
 	}
 

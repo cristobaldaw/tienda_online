@@ -13,7 +13,7 @@ class MY_Form_validation extends CI_Form_validation
 
 	public function registro()
 	{
-		$this->ci->form_validation->set_error_delimiters('<span class="error">', '<span>');
+		$this->ci->form_validation->set_error_delimiters('<span class="rojo">', '<span>');
 		$this->ci->form_validation->set_rules('nombre', 'nombre', 'required');
 		$this->ci->form_validation->set_rules('apellidos', 'apellidos', 'required');
 		$this->ci->form_validation->set_rules('dni', 'dni', 'required');
@@ -28,7 +28,7 @@ class MY_Form_validation extends CI_Form_validation
 
 	public function modificar_usuarios()
 	{
-		$this->ci->form_validation->set_error_delimiters('<span class="error">', '<span>');
+		$this->ci->form_validation->set_error_delimiters('<span class="rojo">', '<span>');
 		$this->ci->form_validation->set_rules('nombre', 'nombre', 'required');
 		$this->ci->form_validation->set_rules('apellidos', 'apellidos', 'required');
 		$this->ci->form_validation->set_rules('direccion', 'direccion', 'required');

@@ -73,4 +73,24 @@ class Model_productos extends CI_Model {
 		$con_iva = ($query['iva']) ? $con_descuento + ($con_descuento * $query['iva'] / 100) : $con_descuento;
 		return round($con_iva, 2);
 	}
+
+	public function nombre_provincia($id_provincia)
+	{
+		$query = $this->db->get_where('provincias', array('id' => $id_provincia));
+		return $query->row_array()['nombre'];
+	}
+
+	public function stock_producto($id_producto)
+	{
+		$this->db->select('stock');
+		$query = $this->db->get_where('productos', array('id' => $id_producto));
+		return $query->row()->stock;
+	}
+
+	public function nombre_producto($id_producto)
+	{
+		$this->db->select('nombre');
+		$query = $this->db->get_where('productos', array('id' => $id_producto));
+		return $query->row()->nombre;
+	}
 }
