@@ -40,6 +40,18 @@ class Model_usuarios extends CI_Model {
 		$this->db->update('usuarios', $datos, array('id' => $id_usuario));
 	}
 
+	public function comprueba_enlace($id_usuario, $enlace)
+	{
+		$datos = $this->datos_usuario($id_usuario);
+		$hash = sha1($datos['nombre'] . $datos['cp'] . date('m-y-d'));
+		return ($enlace == $hash);
+	}
+
+	public function cambia_pass($id_usuario, $pass)
+	{
+		$this->db->update('usuarios', array('pass' => md5($pass)), array('id' => $id_usuario));
+	}
+
 	public function solo_logueado()
 	{
 		if (!$this->session->has_userdata('usuario'))
@@ -66,6 +78,25 @@ class Model_usuarios extends CI_Model {
 			$provincias[$provincia['id']] = $provincia['nombre'];
 		}
 		return $provincias;
+	}
+
+	public function user_by_email($email)
+	{
+		$query = $this->db->get_where('usuarios', array('email' => $email));
+		return $query->row_array();
+	}
+
+	public function correo_pass()
+	{
+		$this->load->library('email');
+			
+		$this->email->from('aula4@iessansebastian.com', 'Cristóbal');
+		$this->email->to('cristobaldominguez95@gmail.com');
+		
+		$this->email->subject('Pedido realizado con éxito');
+		$this->email->message("Puede consultar los detalles de su pedido en el siguiente enlace: http://iessansebastian.com/alumnos/2daw16/crisdo/index.php/pedidos/lineas/$id_pedido");
+		
+		$this->email->send();
 	}
 
 }

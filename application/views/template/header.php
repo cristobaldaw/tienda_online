@@ -58,7 +58,7 @@
 					<li class="nav-item"><a href="<?php echo base_url('index.php/usuarios/registro') ?>" class="nav-link">Registrarse</a></li>
 					<li class="nav-item"><a href="<?php echo base_url('index.php/usuarios/login') ?>" class="nav-link">Iniciar sesión</a></li>					
 				<?php endif ?>
-				<li class="nav-item"><a href="<?php echo base_url('index.php/carrito') ?>" class="nav-link"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Mi carrito (<?php echo $this->lib_carrito->total_prods() ?>)</a></li>
+				<li class="nav-item"><a href="<?php echo base_url('index.php/carrito') ?>" class="nav-link"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Mi carrito (<label id="total_prods"><?php echo $this->lib_carrito->total_prods() ?></label>)</a></li>
 			</ul>
 		</div>
 	</nav>

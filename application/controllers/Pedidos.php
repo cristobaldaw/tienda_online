@@ -44,6 +44,17 @@ class Pedidos extends CI_Controller {
 					);
 				$this->Model_pedidos->insertar_linea($datos_linea);
 			}
+
+			$this->load->library('email');
+			
+			$this->email->from('aula4@iessansebastian.com', 'Cristóbal');
+			$this->email->to('cristobaldominguez95@gmail.com');
+			
+			$this->email->subject('Pedido realizado con éxito');
+			$this->email->message("Puede consultar los detalles de su pedido en el siguiente enlace: http://iessansebastian.com/alumnos/2daw16/crisdo/index.php/pedidos/lineas/$id_pedido");
+			
+			$this->email->send();
+
 			$this->session->unset_userdata('carrito');
 			$this->load->plantilla('pedidos/envio_exito.php');
 		}

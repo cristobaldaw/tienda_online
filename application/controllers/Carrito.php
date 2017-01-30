@@ -15,8 +15,8 @@ class Carrito extends CI_Controller {
 
 	public function anadir()
 	{
-		$datos_prod = $this->Model_productos->prod_by_id($this->uri->segment(3));
-		if ($datos_prod['stock'])
+		$stock = $this->Model_productos->stock_producto($this->uri->segment(3));
+		if ($stock)
 		{
 			$this->lib_carrito->anadir($this->uri->segment(3));
 		}
@@ -26,25 +26,21 @@ class Carrito extends CI_Controller {
 	public function eliminar()
 	{
 		$this->lib_carrito->eliminar($this->uri->segment(3));
-		redirect(base_url('index.php/carrito'));
 	}
 
 	public function vaciar()
 	{
 		$this->lib_carrito->vaciar();
-		redirect(base_url('index.php/carrito'));
 	}
 
 	public function sube()
 	{
 		$this->lib_carrito->sube_cantidad($this->uri->segment(3));
-		redirect(base_url('index.php/carrito'));
 	}
 
 	public function baja()
 	{
 		$this->lib_carrito->baja_cantidad($this->uri->segment(3));
-		redirect(base_url('index.php/carrito'));
 	}
 
 }

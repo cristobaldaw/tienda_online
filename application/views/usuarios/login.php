@@ -1,5 +1,5 @@
 <div class="container">
-	<div class="card col-md-6 offset-md-3">
+	<div class="card col-md-6 offset-md-3 text-md-center">
 		<div class="card-block">
 		<?php if (isset($error)): ?>
 			<div class="alert alert-danger alert-dismissible fade show">
@@ -18,6 +18,7 @@
 					<label for="pass">Contraseña</label>
 					<input type="password" name="pass" class="form-control">
 				</div>
+				<a href="<?php echo base_url('index.php/usuarios/pide_correo') ?>">¿Ha olvidado su contraseña?</a><br><br>
 				<button type="submit" class="btn btn-primary btn-block">Entrar</button>
 			</form>
 		</div>
