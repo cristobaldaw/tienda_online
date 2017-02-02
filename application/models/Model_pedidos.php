@@ -20,6 +20,13 @@ class Model_pedidos extends CI_Model {
 		$this->db->insert('linea_pedido', $datos);
 	}
 
+	public function datos_pedido($id_pedido)
+	{
+		$this->db->select("*, date_format(fecha, '%d/%m/%Y') as fecha");
+		$query = $this->db->get_where('pedidos', array('id' => $id_pedido));
+		return $query->row_array();
+	}
+
 	public function pedidos_usuario($id_usuario)
 	{
 		$this->db->select("*, date_format(fecha, '%d/%m/%Y') as fecha");
@@ -35,6 +42,7 @@ class Model_pedidos extends CI_Model {
 
 	public function precio_linea($id_linea)
 	{
+		// sacar directamente la operacion de la base de datos
 		$query = $this->db->get_where('linea_pedido', array('id' => $id_linea));
 		return $query->row_array()['precio'] * $query->row_array()['cantidad'];
 	}

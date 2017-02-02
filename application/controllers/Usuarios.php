@@ -110,6 +110,7 @@ class Usuarios extends CI_Controller {
 			$this->load->plantilla('usuarios/correo_exito');
 			if ($datos = $this->Model_usuarios->user_by_email($this->input->post('email')))
 			{
+
 				$this->load->library('email');
 				
 				$this->email->from('aula4@iessansebastian.com', 'Cristóbal');

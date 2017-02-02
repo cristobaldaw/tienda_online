@@ -62,9 +62,10 @@ class Pedidos extends CI_Controller {
 
 	public function lineas()
 	{
-		$lineas = $this->Model_pedidos->lineas_pedido($this->uri->segment(3));
-		$precio_pedido = $this->Model_pedidos->precio_pedido($this->uri->segment(3));
-		$this->load->plantilla('pedidos/lineas', array('lineas' => $lineas, 'precio_pedido' => $precio_pedido));
+		$lineas = $this->Model_pedidos->lineas_pedido($this->input->post('id_pedido'));
+		echo json_encode($lineas);
+		// $precio_pedido = $this->Model_pedidos->precio_pedido($this->uri->segment(3));
+		// $this->load->plantilla('pedidos/lineas', array('lineas' => $lineas, 'precio_pedido' => $precio_pedido));
 	}
 
 }

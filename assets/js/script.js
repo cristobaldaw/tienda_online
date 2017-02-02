@@ -1,6 +1,69 @@
 $(document).ready(function() {
 	
-	var base_url = "http://localhost/tienda/index.php/";
+	var base_url = "http://localhost/tienda/";
+
+
+
+
+
+	$(".link-detalles").click(function(event) {
+		event.preventDefault();
+		var cont = 0;
+		$("#table-modal").html("");
+		var id_pedido = $(this).attr("id_pedido");
+		$.ajax({
+			type: "POST",
+			url: base_url + "index.php/pedidos/lineas",
+			data: { id_pedido: id_pedido },
+			dataType: "json",
+			beforeSend: function() {
+				$(".prueba").html("cargando");
+			},
+			success: function(linea) {
+				for (var i in linea) {
+					var id_prod = linea[i].id_producto;
+					$.ajax({
+						type: "POST",
+						url: base_url + "index.php/productos/datos_prod",
+						data: { id_prod: id_prod },
+						dataType: "json",
+						success: function(prod) {
+							$("#table-modal").append("\
+								<tr>\
+								<td>\
+								<div class=\"row\">\
+								<div class=\"col-md-5\">\
+								<a href=\"#\"><img src=\"" + base_url + "assets/img/" + prod.imagen + ".jpg\" class=\"img-fluid\"></a>\
+								</div>\
+								<div class=\"col-md-7\">\
+								<h4><a href=\"#\">" + prod.nombre + "</a></h4>\
+								</div>\
+								</div>\
+								</td>\
+								<td class=\"text-md-center\">" + linea[cont].precio + "</td>\
+								<td class=\"text-md-center\">" + linea[cont].cantidad + "</td>\
+								<td class=\"text-md-center\"><?php echo $this->Model_pedidos->precio_linea($linea['id']) ?>€</td>\
+								</tr>\
+								<tr class=\"text-md-center\">\
+								<td colspan=\"4\" class=\"bg-info text-white\"><strong>TOTAL: <?php echo $precio_pedido ?>€</strong></td>\
+								</tr>\
+								");
+							$('#modal').modal('show');
+							cont++;
+						}
+					});
+				}
+			}
+		});
+	});
+
+
+
+
+
+
+
+
 
 	$(".btn-info").click(function() {
 		$(this).next().slideToggle("slow", function() {
@@ -94,7 +157,7 @@ $(document).ready(function() {
 
 	function AjaxCarrito(js, funcion, id_prod = "") {
 		$.ajax({
-			url: base_url + "carrito/" + funcion + "/" + id_prod
+			url: base_url + "index.php/carrito/" + funcion + "/" + id_prod
 		}).done(js);
 	}
 
@@ -106,9 +169,5 @@ $(document).ready(function() {
 			$("#footer").css("margin-top", 10+ (docHeight - footerTop) + "px");
 		}
 	}
-
-	$("#prueba").click(function() {
-		ActualizaTotal();
-	});
 
 });

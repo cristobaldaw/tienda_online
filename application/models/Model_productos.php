@@ -16,7 +16,7 @@ class Model_productos extends CI_Model {
 		return $query->result_array();
 	}
 
-	public function prods_by_cat($id_cat, $inicio, $tam_pagina)
+	public function prods_by_cat($id_cat, $inicio = '', $tam_pagina = '')
 	{
 		$this->db->limit($inicio, $tam_pagina);
 		$this->db->select('productos.*');
@@ -77,7 +77,7 @@ class Model_productos extends CI_Model {
 	public function nombre_provincia($id_provincia)
 	{
 		$query = $this->db->get_where('provincias', array('id' => $id_provincia));
-		return $query->row_array()['nombre'];
+		return $query->row()->nombre;
 	}
 
 	public function stock_producto($id_producto)
@@ -92,5 +92,15 @@ class Model_productos extends CI_Model {
 		$this->db->select('nombre');
 		$query = $this->db->get_where('productos', array('id' => $id_producto));
 		return $query->row()->nombre;
+	}
+
+	public function insertar_categoria($datos)
+	{
+		$this->db->insert('categorias', $datos);
+	}
+
+	public function insertar_producto($datos)
+	{
+		$this->db->insert('productos', $datos);
 	}
 }

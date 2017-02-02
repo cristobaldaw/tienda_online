@@ -35,4 +35,10 @@ class Productos extends CI_Controller {
 		$this->load->plantilla('productos/datos_prod', array('datos_prod' => $datos_prod, 'precio_final' => $precio_final, 'disabled' => $disabled));
 	}
 
+	public function datos_prod()
+	{
+		$datos_prod = $this->Model_productos->prod_by_id($this->input->post('id_prod'));
+		echo json_encode($datos_prod);
+	}
+
 }
