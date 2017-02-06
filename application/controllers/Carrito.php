@@ -10,7 +10,7 @@ class Carrito extends CI_Controller {
 			$this->session->set_userdata('carrito', $carrito = []);
 		}
 		$precio_total = $this->lib_carrito->precio_total();
-		$this->load->plantilla('productos/carrito', array('precio_total' => $precio_total));
+		$this->load->plantilla('productos/carrito', array('precio_total' => $precio_total), false, 'SmartShop - Carrito');
 	}
 
 	public function anadir()

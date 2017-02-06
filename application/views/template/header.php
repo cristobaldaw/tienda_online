@@ -27,15 +27,9 @@
 		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<a class="navbar-brand" href="<?php echo base_url() ?>">Navbar</a>
+		<a class="navbar-brand" href="<?php echo base_url() ?>">SmartShop</a>
 		<div class="collapse navbar-collapse" id="navbarColor02">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active">
-					<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">Features</a>
-				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categorías</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -58,7 +52,7 @@
 					<li class="nav-item"><a href="<?php echo base_url('index.php/usuarios/registro') ?>" class="nav-link">Registrarse</a></li>
 					<li class="nav-item"><a href="<?php echo base_url('index.php/usuarios/login') ?>" class="nav-link">Iniciar sesión</a></li>					
 				<?php endif ?>
-				<li class="nav-item"><a href="<?php echo base_url('index.php/carrito') ?>" class="nav-link"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Mi carrito (<label id="total_prods"><?php echo $this->lib_carrito->total_prods() ?></label>)</a></li>
+				<li class="nav-item"><a href="<?php echo base_url('index.php/carrito') ?>" class="nav-link"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Mi carrito (<span id="total_prods"><?php echo $this->lib_carrito->total_prods() ?></span>)</a></li>
 			</ul>
 		</div>
 	</nav>

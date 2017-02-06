@@ -18,7 +18,7 @@ class Usuarios extends CI_Controller {
 		$provincias = $this->Model_usuarios->get_all_provincias();
 		if (!$this->form_validation->run())
 		{
-			$this->load->plantilla('usuarios/registro', array('provincias' => $provincias), '', 'Registro');
+			$this->load->plantilla('usuarios/registro', array('provincias' => $provincias), '', 'SmartShop - Registro');
 		}
 		else
 		{
@@ -38,7 +38,7 @@ class Usuarios extends CI_Controller {
 		$this->Model_usuarios->solo_no_logueado();
 		if (!$this->input->post())
 		{
-			$this->load->plantilla('usuarios/login');
+			$this->load->plantilla('usuarios/login', '', false, 'SmartShop - Iniciar sesión');
 		}
 		else
 		{
@@ -62,7 +62,7 @@ class Usuarios extends CI_Controller {
 	function preferencias()
 	{
 		$this->Model_usuarios->solo_logueado();
-		$this->load->plantilla('usuarios/preferencias');
+		$this->load->plantilla('usuarios/preferencias', '', false, 'SmartShop - Preferencias de mi cuenta');
 	}
 
 	function eliminar()
@@ -81,7 +81,7 @@ class Usuarios extends CI_Controller {
 		$this->reglas_modificar();
 		if (!$this->form_validation->run())
 		{
-			$this->load->plantilla('usuarios/modificar', array('datos' => $datos, 'provincias' => $provincias));
+			$this->load->plantilla('usuarios/modificar', array('datos' => $datos, 'provincias' => $provincias), false, 'SmartShop - Modificar datos de mi cuenta');
 		}
 		else
 		{
@@ -100,20 +100,20 @@ class Usuarios extends CI_Controller {
 
 	function pide_correo()
 	{
+		$this->Model_usuarios->solo_no_logueado();
 		$this->form_validation->set_rules('email', 'correo electrónico', 'required|valid_email');
 		if (!$this->form_validation->run())
 		{
-			$this->load->plantilla('usuarios/pide_correo');
+			$this->load->plantilla('usuarios/pide_correo', '', false, 'SmartShop - Recuperar contraseña');
 		}
 		else
 		{
 			$this->load->plantilla('usuarios/correo_exito');
 			if ($datos = $this->Model_usuarios->user_by_email($this->input->post('email')))
 			{
-
 				$this->load->library('email');
 				
-				$this->email->from('aula4@iessansebastian.com', 'Cristóbal');
+				$this->email->from('aula4@iessansebastian.com', 'SmartShop');
 				$this->email->to($datos['email']);
 				
 				$this->email->subject('Enlace para restablecer contraseña');
@@ -133,7 +133,7 @@ class Usuarios extends CI_Controller {
 			$this->form_validation->set_rules('pass', 'contraseña', 'required', array('required' => 'Introduzca contraseña'));
 			if (!$this->form_validation->run())
 			{
-				$this->load->plantilla('usuarios/cambia_pass');
+				$this->load->plantilla('usuarios/cambia_pass', '', false, 'SmartShop - Recuperar contraseña');
 			}
 			else
 			{

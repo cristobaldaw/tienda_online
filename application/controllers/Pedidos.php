@@ -6,7 +6,7 @@ class Pedidos extends CI_Controller {
 	public function index()
 	{
 		$pedidos = $this->Model_pedidos->pedidos_usuario($this->session->userdata('id_usuario'));
-		$this->load->plantilla('pedidos/pedidos.php', array('pedidos' => $pedidos));
+		$this->load->plantilla('pedidos/pedidos.php', array('pedidos' => $pedidos), false, 'Smartshop - Mis pedidos');
 	}
 
 	public function realizar()
@@ -30,7 +30,7 @@ class Pedidos extends CI_Controller {
 				'direccion' => $datos_usuario['direccion'],
 				'email' => $datos_usuario['email'],
 				'cp' => $datos_usuario['cp'],
-				'estado' => 'aaa',
+				'estado' => 'pe',
 				'id_provincia' => $datos_usuario['id_provincia']
 				);
 			$id_pedido = $this->Model_pedidos->insertar_pedido($datos_pedido);
@@ -44,19 +44,21 @@ class Pedidos extends CI_Controller {
 					);
 				$this->Model_pedidos->insertar_linea($datos_linea);
 			}
+			$datos_linea = $this->Model_pedidos->lineas_pedido($id_pedido);
 
-			$this->load->library('email');
-			
+			$html = $this->load->view('pedidos/contenido_email', array('datos_usuario' => $datos_usuario, 'datos_linea' => $datos_linea, 'provincia' => $this->Model_productos->nombre_provincia($datos_usuario['id_provincia']), 'precio_final' => 0), true);
+			/*$this->load->library('email');
 			$this->email->from('aula4@iessansebastian.com', 'Cristóbal');
 			$this->email->to('cristobaldominguez95@gmail.com');
 			
 			$this->email->subject('Pedido realizado con éxito');
-			$this->email->message("Puede consultar los detalles de su pedido en el siguiente enlace: http://iessansebastian.com/alumnos/2daw16/crisdo/index.php/pedidos/lineas/$id_pedido");
+			$this->email->message($html);
 			
 			$this->email->send();
 
 			$this->session->unset_userdata('carrito');
-			$this->load->plantilla('pedidos/envio_exito.php');
+			$this->load->plantilla('pedidos/envio_exito.php');*/
+			echo $html;
 		}
 	}
 
@@ -64,8 +66,11 @@ class Pedidos extends CI_Controller {
 	{
 		$lineas = $this->Model_pedidos->lineas_pedido($this->input->post('id_pedido'));
 		echo json_encode($lineas);
-		// $precio_pedido = $this->Model_pedidos->precio_pedido($this->uri->segment(3));
-		// $this->load->plantilla('pedidos/lineas', array('lineas' => $lineas, 'precio_pedido' => $precio_pedido));
+	}
+
+	public function cancelar()
+	{
+		$this->Model_pedidos->cancela_pedido($this->uri->segment(3));
 	}
 
 }

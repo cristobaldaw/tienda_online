@@ -36,7 +36,10 @@ class Model_pedidos extends CI_Model {
 
 	public function lineas_pedido($id_pedido)
 	{
-		$query = $this->db->get_where('linea_pedido', array('id_pedido' => $id_pedido));
+		$this->db->select('p.id as id_producto, p.nombre, p.imagen, l.precio, l.cantidad, (l.precio * l.cantidad) as precio_linea');
+		$this->db->from('linea_pedido l')->join('productos p', 'l.id_producto = p.id');
+		$this->db->where('l.id_pedido', $id_pedido);
+		$query = $this->db->get();
 		return $query->result_array();
 	}
 
@@ -69,4 +72,11 @@ class Model_pedidos extends CI_Model {
 		}
 		return $error;
 	}
+
+	public function cancela_pedido($id_pedido)
+	{
+		$this->db->update('pedidos', array('estado' => 'ca'), array('id' => $id_pedido));
+	}
+
+
 }
