@@ -17,8 +17,8 @@
 				<tr>
 					<td colspan="7">Aún no ha realizado ningún pedido</td>
 				</tr>
-			<?php else:
-				foreach ($pedidos as $pedido): ?>
+			<?php else: ?>
+				<?php foreach ($pedidos as $pedido): ?>
 					<tr>
 						<td id="estado<?php echo $pedido['id'] ?>"><?php echo ($pedido['estado'] == 'ca' ? 'Cancelado' : 'Pendiente') ?></td>
 						<td><?php echo $pedido['fecha'] ?></td>
@@ -28,15 +28,15 @@
 						<td><?php echo $pedido['direccion'] ?></td>
 						<td><?php echo $pedido['cp'] ?></td>
 						<td><a href="#" class="link-detalles" id_pedido="<?php echo $pedido['id'] ?>">Ver detalles del pedido</a></td>
-						<td><a href="<?php echo base_url("index.php/pedidos/abre_pdf/$pedido[id]/open") ?>"><i class="fa fa-file-text rojo" aria-hidden="true"></i> PDF</a></td>
+						<td><a href="<?php echo base_url("index.php/prueba/index/$pedido[id]") ?>"><i class="fa fa-file-text rojo" aria-hidden="true"></i> PDF</a></td>
 						<?php if ($pedido['estado'] == 'pe'): ?>
 							<td><a href="#" id_pedido="<?php echo $pedido['id'] ?>" class="link-cancelar" id="cancelar<?php echo $pedido['id'] ?>">Cancelar pedido</a></td>
 						<?php else: ?>
 							<td></td>
 						<?php endif ?>
 					</tr>
-				<?php endforeach;
-			endif ?>
+				<?php endforeach ?>
+			<?php endif ?>
 		</tbody>
 	</table>
 	<a href="<?php echo base_url('index.php/usuarios/preferencias') ?>" class="btn btn-primary boton"><i class="fa fa-arrow-left" aria-hidden="true"></i> Volver</a>

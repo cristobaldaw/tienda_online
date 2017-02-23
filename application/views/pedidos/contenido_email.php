@@ -25,7 +25,7 @@
 	<p>Dirección: <?php echo $datos_usuario['direccion'] ?></p>
 	<p>Provincia: <?php echo $provincia ?></p>
 	<p>Fecha: <?php echo date('d/m/Y') ?></p>
-	<table border="1">
+	<table>
 		<tr class="header">
 			<th class="text-md-center">Nombre</th>
 			<th class="text-md-center">Precio</th>

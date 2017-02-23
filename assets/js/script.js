@@ -1,58 +1,6 @@
 $(document).ready(function() {
 	
-	var base_url = "http://iessansebastian.com/alumnos/2daw16/crisdo/";
-
-	$(".link-detalles").click(function(event) {
-		event.preventDefault();
-		var id_pedido = $(this).attr("id_pedido");
-		var precio_pedido = 0;
-		$("#table-modal").html("");
-		$.ajax({
-			type: "POST",
-			url: base_url + "index.php/pedidos/lineas",
-			data: { id_pedido: id_pedido },
-			dataType: "json",
-			success: function(linea) {
-				console.log(linea);
-				for (var i in linea) {
-					$("#table-modal").append('\
-						<tr>\
-							<td class="row">\
-								<div class="col-md-2"><a href="#"><img src="' + base_url + 'assets/img/' + linea[i].imagen + '.jpg" class="img-fluid"></a></div>\
-								<div class="col-md-10"><h4><a href="#">' + linea[i].nombre + '</a></h4></div>\
-							<td>\
-							<td class="text-md-center">' + linea[i].precio + '</td>\
-							<td class="text-md-center">' + linea[i].cantidad + '</td>\
-							<td class="text-md-center">' + linea[i].precio_linea + '€</td>\
-						</tr>');
-					precio_pedido += parseFloat(linea[i].precio_linea);
-				}
-				$("#table-modal").append('\
-					<tr class="text-md-center">\
-						<td colspan="5" class="bg-info text-white"><strong>TOTAL: ' + precio_pedido + '€</strong></td>\
-					</tr>');
-				$('#modal').modal('show');
-			}
-		});
-	});
-
-
-
-	$(".link-cancelar").click(function(event) {
-		event.preventDefault();
-		var id_pedido = $(this).attr("id_pedido");
-		$.ajax({
-			url: base_url + "index.php/pedidos/cancelar/" + id_pedido
-		}).done(function() {
-			$("#cancelar" + id_pedido).hide();
-			$("#estado" + id_pedido).html("Cancelado");
-			FooterBajo();
-		});
-	});
-
-
-
-
+	var base_url = "http://iessansebastian.com/alumnos/2daw16/crisdo/index.php/";
 
 	$(".btn-info").click(function() {
 		$(this).next().slideToggle("slow", function() {
@@ -72,7 +20,6 @@ $(document).ready(function() {
 		var id_prod = $(this).attr("id_prod");
 		AjaxCarrito(function() {
 			if ($(".fila_prod").length == 1) {
-				// Si solo hay un producto se vacía el carrito
 				Vaciar();
 			} else {
 				$("#fila" + id_prod).fadeOut("slow", function() {
@@ -147,7 +94,7 @@ $(document).ready(function() {
 
 	function AjaxCarrito(js, funcion, id_prod = "") {
 		$.ajax({
-			url: base_url + "index.php/carrito/" + funcion + "/" + id_prod
+			url: base_url + "carrito/" + funcion + "/" + id_prod
 		}).done(js);
 	}
 
@@ -159,5 +106,9 @@ $(document).ready(function() {
 			$("#footer").css("margin-top", 10+ (docHeight - footerTop) + "px");
 		}
 	}
+
+	$("#prueba").click(function() {
+		ActualizaTotal();
+	});
 
 });
