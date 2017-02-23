@@ -8,17 +8,16 @@ class Usuarios extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->library('form_validation');
-		$this->load->helper('dni');
 	}
 
 	function registro()
 	{
-		$this->Model_usuarios->solo_no_logueado();
+		$this->solo_no_logueado();
 		$this->reglas_registro();
 		$provincias = $this->Model_usuarios->get_all_provincias();
 		if (!$this->form_validation->run())
 		{
-			$this->load->plantilla('usuarios/registro', array('provincias' => $provincias), '', 'Registro');
+			$this->load->plantilla('usuarios/registro', array('provincias' => $provincias), '', 'SmartShop - Registro');
 		}
 		else
 		{
@@ -35,10 +34,10 @@ class Usuarios extends CI_Controller {
 
 	function login()
 	{
-		$this->Model_usuarios->solo_no_logueado();
+		$this->solo_no_logueado();
 		if (!$this->input->post())
 		{
-			$this->load->plantilla('usuarios/login');
+			$this->load->plantilla('usuarios/login', '', false, 'SmartShop - Iniciar sesión');
 		}
 		else
 		{
@@ -61,13 +60,13 @@ class Usuarios extends CI_Controller {
 
 	function preferencias()
 	{
-		$this->Model_usuarios->solo_logueado();
-		$this->load->plantilla('usuarios/preferencias');
+		$this->solo_logueado();
+		$this->load->plantilla('usuarios/preferencias', '', false, 'SmartShop - Preferencias de mi cuenta');
 	}
 
 	function eliminar()
 	{
-		$this->Model_usuarios->solo_logueado();
+		$this->solo_logueado();
 		$this->Model_usuarios->eliminar($this->session->userdata('id_usuario'));
 		$this->session->unset_userdata('id_usuario');
 		$this->session->unset_userdata('usuario');
@@ -76,12 +75,13 @@ class Usuarios extends CI_Controller {
 
 	function modificar()
 	{
+		$this->solo_logueado();
 		$datos = $this->Model_usuarios->datos_usuario($this->session->userdata('id_usuario'));
 		$provincias = $this->Model_usuarios->get_all_provincias();
 		$this->reglas_modificar();
 		if (!$this->form_validation->run())
 		{
-			$this->load->plantilla('usuarios/modificar', array('datos' => $datos, 'provincias' => $provincias));
+			$this->load->plantilla('usuarios/modificar', array('datos' => $datos, 'provincias' => $provincias), false, 'SmartShop - Modificar datos de mi cuenta');
 		}
 		else
 		{
@@ -92,7 +92,7 @@ class Usuarios extends CI_Controller {
 
 	function Logout()
 	{
-		$this->Model_usuarios->solo_logueado();
+		$this->solo_logueado();
 		$this->session->unset_userdata('id_usuario');
 		$this->session->unset_userdata('usuario');
 		redirect(base_url());
@@ -100,20 +100,20 @@ class Usuarios extends CI_Controller {
 
 	function pide_correo()
 	{
+		$this->Model_usuarios->solo_no_logueado();
 		$this->form_validation->set_rules('email', 'correo electrónico', 'required|valid_email');
 		if (!$this->form_validation->run())
 		{
-			$this->load->plantilla('usuarios/pide_correo');
+			$this->load->plantilla('usuarios/pide_correo', '', false, 'SmartShop - Recuperar contraseña');
 		}
 		else
 		{
 			$this->load->plantilla('usuarios/correo_exito');
 			if ($datos = $this->Model_usuarios->user_by_email($this->input->post('email')))
 			{
-
 				$this->load->library('email');
 				
-				$this->email->from('aula4@iessansebastian.com', 'Cristóbal');
+				$this->email->from('aula4@iessansebastian.com', 'SmartShop');
 				$this->email->to($datos['email']);
 				
 				$this->email->subject('Enlace para restablecer contraseña');
@@ -128,12 +128,14 @@ class Usuarios extends CI_Controller {
 
 	function cambia_pass()
 	{
-		if ($this->Model_usuarios->comprueba_enlace($this->uri->segment(3), $this->uri->segment(4)))
+		$datos = $this->datos_usuario($this->uri->segment(3));
+		$hash = sha1($datos['nombre'] . $datos['cp'] . date('m-y-d'));
+		if ($hash == $this->uri->segment(4))
 		{
 			$this->form_validation->set_rules('pass', 'contraseña', 'required', array('required' => 'Introduzca contraseña'));
 			if (!$this->form_validation->run())
 			{
-				$this->load->plantilla('usuarios/cambia_pass');
+				$this->load->plantilla('usuarios/cambia_pass', '', false, 'SmartShop - Recuperar contraseña');
 			}
 			else
 			{
@@ -174,6 +176,7 @@ class Usuarios extends CI_Controller {
 
 	public function dni_check($dni)
 	{
+		$this->load->helper('dni');
 		if (dni_valida_nif_cif_nie($dni))
 		{
 			return true;
@@ -182,6 +185,22 @@ class Usuarios extends CI_Controller {
 		{
 			$this->form_validation->set_message('dni_check', 'Introduzca un DNI válido');
 			return false;
+		}
+	}
+
+	private function solo_logueado()
+	{
+		if (!$this->session->has_userdata('usuario'))
+		{
+			redirect(base_url('index.php/usuarios/login'));
+		}
+	}
+
+	private function solo_no_logueado()
+	{
+		if ($this->session->has_userdata('usuario'))
+		{
+			redirect(base_url());
 		}
 	}
 

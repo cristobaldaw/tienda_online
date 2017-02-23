@@ -20,14 +20,12 @@ class Model_usuarios extends CI_Model {
 
 	public function login_ok($usuario, $pass)
 	{
-		$query = $this->db->get_where('usuarios', array('usuario' => $usuario, 'pass' => md5($pass), 'borrado' => 0));
-		return $query->row_array();
+		return $this->db->get_where('usuarios', array('usuario' => $usuario, 'pass' => md5($pass), 'borrado' => 0))->row_array();
 	}
 
 	public function datos_usuario($id_usuario)
 	{
-		$query = $this->db->get_where('usuarios', array('id' => $id_usuario));
-		return $query->row_array();
+		return $this->db->get_where('usuarios', array('id' => $id_usuario))->row_array();
 	}
 
 	public function eliminar($id_usuario)
@@ -40,39 +38,15 @@ class Model_usuarios extends CI_Model {
 		$this->db->update('usuarios', $datos, array('id' => $id_usuario));
 	}
 
-	public function comprueba_enlace($id_usuario, $enlace)
-	{
-		$datos = $this->datos_usuario($id_usuario);
-		$hash = sha1($datos['nombre'] . $datos['cp'] . date('m-y-d'));
-		return ($enlace == $hash);
-	}
-
 	public function cambia_pass($id_usuario, $pass)
 	{
 		$this->db->update('usuarios', array('pass' => md5($pass)), array('id' => $id_usuario));
 	}
 
-	public function solo_logueado()
-	{
-		if (!$this->session->has_userdata('usuario'))
-		{
-			redirect(base_url('index.php/usuarios/login'));
-		}
-	}
-
-	public function solo_no_logueado()
-	{
-		if ($this->session->has_userdata('usuario'))
-		{
-			redirect(base_url());
-		}
-	}
-
 	public function get_all_provincias()
 	{
 		$this->db->order_by('nombre');
-		$query = $this->db->get('provincias');
-		$rs = $query->result_array();
+		$rs = $this->db->get('provincias')->result_array();
 		foreach ($rs as $provincia)
 		{
 			$provincias[$provincia['id']] = $provincia['nombre'];
@@ -82,21 +56,7 @@ class Model_usuarios extends CI_Model {
 
 	public function user_by_email($email)
 	{
-		$query = $this->db->get_where('usuarios', array('email' => $email));
-		return $query->row_array();
-	}
-
-	public function correo_pass()
-	{
-		$this->load->library('email');
-			
-		$this->email->from('aula4@iessansebastian.com', 'Cristóbal');
-		$this->email->to('cristobaldominguez95@gmail.com');
-		
-		$this->email->subject('Pedido realizado con éxito');
-		$this->email->message("Puede consultar los detalles de su pedido en el siguiente enlace: http://iessansebastian.com/alumnos/2daw16/crisdo/index.php/pedidos/lineas/$id_pedido");
-		
-		$this->email->send();
+		return $this->db->get_where('usuarios', array('email' => $email))->row_array();
 	}
 
 }

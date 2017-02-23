@@ -1,65 +1,54 @@
 $(document).ready(function() {
 	
-	var base_url = "http://localhost/tienda/";
-
-
-
-
+	var base_url = "http://iessansebastian.com/alumnos/2daw16/crisdo/";
 
 	$(".link-detalles").click(function(event) {
 		event.preventDefault();
-		var cont = 0;
-		$("#table-modal").html("");
 		var id_pedido = $(this).attr("id_pedido");
+		var precio_pedido = 0;
+		$("#table-modal").html("");
 		$.ajax({
 			type: "POST",
 			url: base_url + "index.php/pedidos/lineas",
 			data: { id_pedido: id_pedido },
 			dataType: "json",
-			beforeSend: function() {
-				$(".prueba").html("cargando");
-			},
 			success: function(linea) {
+				console.log(linea);
 				for (var i in linea) {
-					var id_prod = linea[i].id_producto;
-					$.ajax({
-						type: "POST",
-						url: base_url + "index.php/productos/datos_prod",
-						data: { id_prod: id_prod },
-						dataType: "json",
-						success: function(prod) {
-							$("#table-modal").append("\
-								<tr>\
-								<td>\
-								<div class=\"row\">\
-								<div class=\"col-md-5\">\
-								<a href=\"#\"><img src=\"" + base_url + "assets/img/" + prod.imagen + ".jpg\" class=\"img-fluid\"></a>\
-								</div>\
-								<div class=\"col-md-7\">\
-								<h4><a href=\"#\">" + prod.nombre + "</a></h4>\
-								</div>\
-								</div>\
-								</td>\
-								<td class=\"text-md-center\">" + linea[cont].precio + "</td>\
-								<td class=\"text-md-center\">" + linea[cont].cantidad + "</td>\
-								<td class=\"text-md-center\"><?php echo $this->Model_pedidos->precio_linea($linea['id']) ?>€</td>\
-								</tr>\
-								<tr class=\"text-md-center\">\
-								<td colspan=\"4\" class=\"bg-info text-white\"><strong>TOTAL: <?php echo $precio_pedido ?>€</strong></td>\
-								</tr>\
-								");
-							$('#modal').modal('show');
-							cont++;
-						}
-					});
+					$("#table-modal").append('\
+						<tr>\
+							<td class="row">\
+								<div class="col-md-2"><a href="#"><img src="' + base_url + 'assets/img/' + linea[i].imagen + '.jpg" class="img-fluid"></a></div>\
+								<div class="col-md-10"><h4><a href="#">' + linea[i].nombre + '</a></h4></div>\
+							<td>\
+							<td class="text-md-center">' + linea[i].precio + '</td>\
+							<td class="text-md-center">' + linea[i].cantidad + '</td>\
+							<td class="text-md-center">' + linea[i].precio_linea + '€</td>\
+						</tr>');
+					precio_pedido += parseFloat(linea[i].precio_linea);
 				}
+				$("#table-modal").append('\
+					<tr class="text-md-center">\
+						<td colspan="5" class="bg-info text-white"><strong>TOTAL: ' + precio_pedido + '€</strong></td>\
+					</tr>');
+				$('#modal').modal('show');
 			}
 		});
 	});
 
 
 
-
+	$(".link-cancelar").click(function(event) {
+		event.preventDefault();
+		var id_pedido = $(this).attr("id_pedido");
+		$.ajax({
+			url: base_url + "index.php/pedidos/cancelar/" + id_pedido
+		}).done(function() {
+			$("#cancelar" + id_pedido).hide();
+			$("#estado" + id_pedido).html("Cancelado");
+			FooterBajo();
+		});
+	});
 
 
 
@@ -83,6 +72,7 @@ $(document).ready(function() {
 		var id_prod = $(this).attr("id_prod");
 		AjaxCarrito(function() {
 			if ($(".fila_prod").length == 1) {
+				// Si solo hay un producto se vacía el carrito
 				Vaciar();
 			} else {
 				$("#fila" + id_prod).fadeOut("slow", function() {

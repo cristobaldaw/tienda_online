@@ -6,17 +6,17 @@ class Pedidos extends CI_Controller {
 	public function index()
 	{
 		$pedidos = $this->Model_pedidos->pedidos_usuario($this->session->userdata('id_usuario'));
-		$this->load->plantilla('pedidos/pedidos.php', array('pedidos' => $pedidos));
+		$this->load->plantilla('pedidos/pedidos.php', array('pedidos' => $pedidos), false, 'Smartshop - Mis pedidos');
 	}
 
 	public function realizar()
 	{
-		$this->Model_usuarios->solo_logueado();
+		$this->solo_logueado();
 		if (empty($this->session->userdata('carrito')))
 		{
 			redirect(base_url('index.php/carrito'));
 		}
-		if ($error = $this->Model_pedidos->comprueba_stock())
+		if ($error = $this->comprueba_stock())
 		{
 			$this->load->plantilla('pedidos/no_stock', array('error' => $error));
 		}
@@ -30,7 +30,7 @@ class Pedidos extends CI_Controller {
 				'direccion' => $datos_usuario['direccion'],
 				'email' => $datos_usuario['email'],
 				'cp' => $datos_usuario['cp'],
-				'estado' => 'aaa',
+				'estado' => 'pe',
 				'id_provincia' => $datos_usuario['id_provincia']
 				);
 			$id_pedido = $this->Model_pedidos->insertar_pedido($datos_pedido);
@@ -44,19 +44,24 @@ class Pedidos extends CI_Controller {
 					);
 				$this->Model_pedidos->insertar_linea($datos_linea);
 			}
+			$datos_linea = $this->Model_pedidos->lineas_pedido($id_pedido);
+
+			$html = $this->load->view('pedidos/contenido_email', array('datos_usuario' => $datos_usuario, 'datos_linea' => $datos_linea, 'provincia' => $this->Model_productos->nombre_provincia($datos_usuario['id_provincia']), 'precio_final' => 0), true);
+			$pdf = $this->abre_pdf();
 
 			$this->load->library('email');
-			
 			$this->email->from('aula4@iessansebastian.com', 'Cristóbal');
 			$this->email->to('cristobaldominguez95@gmail.com');
 			
 			$this->email->subject('Pedido realizado con éxito');
-			$this->email->message("Puede consultar los detalles de su pedido en el siguiente enlace: http://iessansebastian.com/alumnos/2daw16/crisdo/index.php/pedidos/lineas/$id_pedido");
+			$this->email->message($html);
+			$this->email->attach($pdf);
 			
-			$this->email->send();
+			//$this->email->send();
 
 			$this->session->unset_userdata('carrito');
 			$this->load->plantilla('pedidos/envio_exito.php');
+			
 		}
 	}
 
@@ -64,8 +69,99 @@ class Pedidos extends CI_Controller {
 	{
 		$lineas = $this->Model_pedidos->lineas_pedido($this->input->post('id_pedido'));
 		echo json_encode($lineas);
-		// $precio_pedido = $this->Model_pedidos->precio_pedido($this->uri->segment(3));
-		// $this->load->plantilla('pedidos/lineas', array('lineas' => $lineas, 'precio_pedido' => $precio_pedido));
+	}
+
+	public function cancelar()
+	{
+		$this->Model_pedidos->cancela_pedido($this->uri->segment(3));
+		$lineas = $this->Model_pedidos->lineas_pedido($this->uri->segment(3));
+		foreach ($lineas as $linea)
+		{
+			$this->Model_productos->aumenta_stock($linea['id_producto'], $linea['cantidad']);
+		}
+	}
+
+	public function abre_pdf()
+	{
+		$this->load->library('PDF');
+		$datos_pedido = $this->Model_pedidos->datos_pedido($this->uri->segment(3));
+		$lineas = $this->Model_pedidos->lineas_pedido($this->uri->segment(3));
+		$precio_pedido = $this->Model_pedidos->precio_pedido($this->uri->segment(3));
+		$pdf=new PDF();
+		$pdf->AliasNbPages();
+		$pdf->AddPage();
+		$pdf->SetY(50);
+		$pdf->Cell(0, 10, utf8_decode('Nombre completo: ' . $datos_pedido['nombre'] . ' ' . $datos_pedido['apellidos']));
+		$pdf->LN();
+		$pdf->Cell(0, 10, utf8_decode('Dirección: ' . $datos_pedido['direccion']));
+		$pdf->LN();
+		$pdf->Cell(0, 10, utf8_decode('Provincia: ' . $this->Model_productos->nombre_provincia($datos_pedido['id_provincia'])));
+		$pdf->LN();
+		$pdf->Cell(0, 10, utf8_decode('Fecha: ' . $datos_pedido['fecha']));
+		$pdf->LN();
+		$pdf->LN();
+		$pdf->SetFillColor(255,0,0);
+		$pdf->SetTextColor(255);
+		$pdf->SetDrawColor(128,0,0);
+		$pdf->SetLineWidth(.3);
+		$pdf->SetFont('','B');
+		//Cabecera
+		$pdf->Cell(80,7,'PRODUCTO',1,0,'C',1);
+		$pdf->Cell(40,7,'PRECIO',1,0,'C',1);
+		$pdf->Cell(30,7,'CANTIDAD',1,0,'C',1);
+		$pdf->Cell(40,7,'SUBTOTAL',1,0,'C',1);
+		$pdf->Ln();
+		$pdf->SetFillColor(224,235,255);
+		$pdf->SetTextColor(0);
+		$pdf->SetFont('');
+		$fill=false;
+		foreach ($lineas as $linea)
+		{
+			$nombre = utf8_decode($this->Model_productos->nombre_producto($linea['id_producto']));
+			$pdf->Cell(80,6,$nombre,'LR',0,'C',$fill);
+			$pdf->Cell(40,6,$linea['precio'],'LR',0,'C',$fill);
+			$pdf->Cell(30,6,$linea['cantidad'],'LR',0,'C',$fill);
+			$pdf->Cell(40,6,$linea['cantidad'] * $linea['precio'],'LR',0,'C',$fill);
+			$pdf->Ln();
+			$fill=!$fill;
+		}
+		$pdf->SetFont('','B');
+		$fill = true;
+		$pdf->Cell(190,0,'','T');
+		$pdf->Ln();
+		$pdf->Cell(190,7,'TOTAL: ' . $precio_pedido,1,0,'C');
+		if ($this->uri->segment(4) == 'open')
+		{
+			$pdf->Output();
+		}
+		else
+		{
+			$nombre = tempnam(APPPATH . 'upload/', 'fact-') . '.pdf';
+			$pdf->Output('F', $nombre);
+			return $nombre;
+		}
+	}
+
+	private function solo_logueado()
+	{
+		if (!$this->session->has_userdata('usuario'))
+		{
+			redirect(base_url('index.php/usuarios/login'));
+		}
+	}
+
+	private function comprueba_stock()
+	{
+		$error = [];
+		foreach ($this->session->userdata('carrito') as $id_producto => $cantidad)
+		{
+			$stock = $this->Model_productos->stock_producto($id_producto);
+			if ($cantidad > $stock)
+			{
+				$error[$id_producto] = $stock;
+			}
+		}
+		return $error;
 	}
 
 }

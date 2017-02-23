@@ -7,10 +7,10 @@ body {
 }
 
 .jumbotron {
-    background: linear-gradient(to right, black, gray);
+    background-color: #737373;
     color: white;
-    padding: 10px;
-    border-radius: 10px;
+    padding: 20px;
+    font-weight: bold;
 }
 
 .rojo, .rojo:hover {
@@ -73,6 +73,27 @@ body {
     margin-top: 3%;
 }
 
+.carousel {
+    background-color: white;
+}
+
+.d-md-block {
+    background: linear-gradient(to right, white, gray);
+}
+
+.fa-chevron-right, .fa-chevron-left {
+    color: black;
+}
+
+.card-inverse {
+    width: auto;
+}
+
+.table>tbody>tr>td, .table>tfoot>tr>td{
+    vertical-align: middle;
+    background-color: white;
+}
+
 ul.pagination {
     display: inline-block;
     padding: 0;
@@ -110,26 +131,5 @@ ul.pagination li.active {
 }
 
 ul.pagination li a:hover:not(.active) {
-    background-color: white;
-}
-
-.carousel {
-    background-color: white;
-}
-
-.d-md-block {
-    background: linear-gradient(to right, white, gray);
-}
-
-.fa-chevron-right, .fa-chevron-left {
-    color: black;
-}
-
-.card-inverse {
-    width: auto;
-}
-
-.table>tbody>tr>td, .table>tfoot>tr>td{
-    vertical-align: middle;
     background-color: white;
 }

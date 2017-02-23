@@ -1,10 +1,13 @@
 <div class="container">
-	<div class="text-md-center col-md-8 offset-md-2">
+	<div class="text-md-center">
 		<div class="card">
 			<div class="card-block">
-				<a href="<?php echo base_url('index.php/usuarios/modificar') ?>"><h2><i class="fa fa-pencil" aria-hidden="true"></i> Modificar datos de mi cuenta</h2></a>			
-				<a href="<?php echo base_url('index.php/pedidos') ?>"><h2><i class="fa fa-shopping-bag" aria-hidden="true"></i> Ver mis pedidos</h2></a>
-				<a href="#" data-toggle="modal" data-target="#myModal"><h2><i class="fa fa-times" aria-hidden="true"></i> Dar de baja mi cuenta</h2></a>
+				<h2><a href="<?php echo base_url('index.php/usuarios/modificar') ?>"><i class="fa fa-pencil" aria-hidden="true"></i> Modificar datos de mi cuenta</a></h2>			
+				<h2><a href="<?php echo base_url('index.php/pedidos') ?>"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Ver mis pedidos</a></h2>
+				<h2><a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-times" aria-hidden="true"></i> Dar de baja mi cuenta</a></h2>
+				<h2><a href="<?php echo base_url('index.php/XML/exportar') ?>"><i class="fa fa-file" aria-hidden="true"></i> Exportar productos y categorías a XML</a></h2>
+				<h2><a href="<?php echo base_url('index.php/XML/importar') ?>"><i class="fa fa-file" aria-hidden="true"></i> Importar productos y categorías desde un fichero XML</a></h2>
+				<h2><a href="<?php echo base_url('index.php/excel') ?>"><i class="fa fa-table" aria-hidden="true"></i> Importar productos y categorías desde un fichero Excel</a></h2>
 			</div>
 		</div>
 	</div>

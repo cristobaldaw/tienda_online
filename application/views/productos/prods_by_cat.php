@@ -1,10 +1,10 @@
-<div class="container">
-	<div class="jumbotron jumbotron-fluid text-md-center">
-		<div class="container">
-		<h1 class="display-3"><?php echo $datos_cat['nombre'] ?></h1>
-			<p class="lead"><?php echo $datos_cat['descripcion'] ?></p>
-		</div>
+<div class="jumbotron jumbotron-fluid text-md-center">
+	<div class="containerd">
+	<h1 class="display-3"><?php echo $datos_cat['nombre'] ?></h1>
+		<p class="lead"><?php echo $datos_cat['descripcion'] ?></p>
 	</div>
+</div>
+<div class="container">
 	<div class="row">
 		<?php foreach ($productos as $prod):
 			$disabled = (!$prod['stock']) ? 'disabled' : ''; ?>

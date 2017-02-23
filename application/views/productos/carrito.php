@@ -14,8 +14,8 @@
 			<tr>
 				<td colspan="5" class="text-md-center">No hay productos en el carrito</td>
 			</tr>
-		<?php else: ?>
-			<?php foreach ($this->session->userdata('carrito') as $id_producto => $cantidad):
+		<?php else:
+			foreach ($this->session->userdata('carrito') as $id_producto => $cantidad):
 				$datos_prod = $this->Model_productos->prod_by_id($id_producto) ?>
 				<tr id="fila<?php echo $id_producto ?>" class="fila_prod">
 					<td>
@@ -40,8 +40,8 @@
 						<h4><a href="#" class="rojo eliminar" id_prod="<?php echo $id_producto ?>"><i class="fa fa-times" aria-hidden="true"></i></a></h4>
 					</td>
 				</tr>
-			<?php endforeach ?>
-		<?php endif ?>
+			<?php endforeach;
+		endif ?>
 		</tbody>
 		<?php if (!empty($this->session->userdata('carrito'))): ?>
 			<tfoot>
