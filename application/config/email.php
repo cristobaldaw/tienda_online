@@ -5,5 +5,5 @@ $config['wordwrap'] = TRUE;
 $config['protocol'] = 'sendmail';
 $config['smtp_host'] = 'mail.iessansebastian.com';
 $config['smtp_user'] = 'aula4@iessansebastian.com';
-$config['smtp_pass'] = 'daw2alumno';
+$config['smtp_pass'] = 'dawanyo2017';
 $config['mailtype'] = 'html';

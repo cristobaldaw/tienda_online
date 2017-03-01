@@ -25,7 +25,7 @@
 	<p>Dirección: <?php echo $datos_usuario['direccion'] ?></p>
 	<p>Provincia: <?php echo $provincia ?></p>
 	<p>Fecha: <?php echo date('d/m/Y') ?></p>
-	<table>
+	<table border="1">
 		<tr class="header">
 			<th class="text-md-center">Nombre</th>
 			<th class="text-md-center">Precio</th>
@@ -35,9 +35,9 @@
 		<?php foreach ($datos_linea as $linea): ?>
 			<tr>
 				<td><?php echo $linea['nombre'] ?></td>
-				<td><?php echo $linea['precio'] ?></td>
+				<td><?php echo $linea['precio'] ?>€</td>
 				<td><?php echo $linea['cantidad'] ?></td>
-				<td><?php echo ($linea['precio'] * $linea['cantidad']) ?></td>
+				<td><?php echo ($linea['precio'] * $linea['cantidad']) ?>€</td>
 			</tr>
 			<?php $precio_final += $linea['precio'] * $linea['cantidad'] ?>
 		<?php endforeach ?>

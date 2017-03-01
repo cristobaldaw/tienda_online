@@ -5,11 +5,17 @@ require APPPATH.'/third_party/phpexcel/Classes/PHPExcel/IOFactory.php';
 
 class Excel extends CI_Controller {
 
+	/**
+	 * Carga la plantilla de importación excel
+	 */
 	public function index()
 	{
 		$this->load->plantilla('productos/importar_excel');
 	}
 
+	/**
+	 * Proceso de importación de productos desde un fichero Excel a la base de datos
+	 */
 	public function importacion_prods()
 	{
 		$archivo = $_FILES['excel']['tmp_name'];
@@ -44,6 +50,9 @@ class Excel extends CI_Controller {
 		}
 	}
 
+	/**
+	 * Proceso de importación de productos desde un fichero Excel a la base de datos
+	 */
 	public function importacion_cats()
 	{
 		$archivo = $_FILES['excel']['tmp_name'];

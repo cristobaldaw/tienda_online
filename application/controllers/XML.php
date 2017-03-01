@@ -3,6 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class XML extends CI_Controller {
 
+	/**
+	 * Hace el proceso de exportación del fichero XML
+	 */
 	public function exportar() {
 
 		header('Content-type: text/xml');
@@ -89,11 +92,17 @@ class XML extends CI_Controller {
 
 	}
 
+	/**
+	 * Carga la vista de importar XML
+	 */
 	public function importar()
 	{
 		$this->load->plantilla('productos/importar_xml');
 	}
 
+	/**
+	 * Hace el proceso de importar un fichero XML a la base de datos
+	 */
 	public function importacion()
 	{
 		$archivo = $_FILES['xml']['tmp_name'];
