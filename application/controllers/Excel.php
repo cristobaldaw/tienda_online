@@ -37,13 +37,10 @@ class Excel extends CI_Controller {
 					"imagen" => $worksheet->getCellByColumnAndRow(4, $row)->getValue(),
 					"iva" => $worksheet->getCellByColumnAndRow(5, $row)->getValue(),
 					"descripcion" => $worksheet->getCellByColumnAndRow(6, $row)->getValue(),
-					"anuncio" => $worksheet->getCellByColumnAndRow(7, $row)->getValue(),
-					"id_categoria" => $worksheet->getCellByColumnAndRow(8, $row)->getValue(),
-					"stock" => $worksheet->getCellByColumnAndRow(9, $row)->getValue(),
-					"fecha_ini" => $worksheet->getCellByColumnAndRow(10, $row)->getFormattedValue(),
-					"fecha_fin" => $worksheet->getCellByColumnAndRow(11, $row)->getFormattedValue(),
-					"oculto" => $worksheet->getCellByColumnAndRow(12, $row)->getValue(),
-					"destacado" => $worksheet->getCellByColumnAndRow(13, $row)->getValue()
+					"id_categoria" => $worksheet->getCellByColumnAndRow(7, $row)->getValue(),
+					"stock" => $worksheet->getCellByColumnAndRow(8, $row)->getValue(),
+					"oculto" => $worksheet->getCellByColumnAndRow(9, $row)->getValue(),
+					"destacado" => $worksheet->getCellByColumnAndRow(10, $row)->getValue()
 					);
 				$this->Model_productos->insertar_producto($datos_prod);
 			}
